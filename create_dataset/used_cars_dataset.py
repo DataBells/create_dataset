@@ -61,7 +61,8 @@ energy_probs = [0.25, 0.25, 0.25, 0.25]
 feedbacks = ["Excellent", "Good", "Average", "Poor"]
 feedback_probs = [0.4, 0.3, 0.2, 0.1]
 
-sales_agents = ["Agent A", "Agent B", "Agent C", "Agent D", "Agent E"]
+sales_agents = ["Krishna", "Shiva", "Ram", "Narayan", "Piyush", "Vishwajeet", "Arjuna", "Hariom", "Karan", "Pavan", "Aditya", "Vihaan", "Sai", "Pranav", "Dhruv", "Rithvik", "Aarush",
+                "Swathi", "Shruthi", "Bhavani", "Preeti", "Anushka", "Shailaja", "Supriya", "Sweta", "Shilpa", "Swapna"]
 
 # Price and mileage functions
 def generate_price(manufacturer, car_type, year, energy):
@@ -73,7 +74,7 @@ def generate_price(manufacturer, car_type, year, energy):
 
 def generate_mileage():
     if random.random() < 0.15:
-        return random.randint(75000, 1000000)
+        return random.randint(75000, 100000)
     return random.randint(1000, 75000)
 
 def generate_engine_power():
