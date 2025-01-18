@@ -2,6 +2,7 @@ import random
 import uuid
 import csv
 from datetime import datetime, timedelta
+import pandas as pd
 
 def random_choice_with_probabilities(options, probabilities):
     return random.choices(options, probabilities, k=1)[0]
@@ -14,26 +15,39 @@ def generate_random_date(start_year, end_year):
     return start_date + timedelta(days=random_days)
 
 # Predefined lists and probabilities
-distributor_names = ["Distributor A", "Distributor B", "Distributor C", "Distributor D"]
-distributor_probs = [0.25, 0.25, 0.25, 0.25]
 
-locations = ["Location X", "Location Y", "Location Z", "Location W"]
-location_probs = [0.25, 0.25, 0.25, 0.25]
+distributor_names = [
+    "Carro", "Carsome", "Cars24", "Carousell", "Carmix", "Olx", "Trust", "Motor", "Oto", "Carmudi", "Automart", "Ahg", "Knox", "Trivett", "Zupps", "APE", "Skipper", "Nufor", "Marchi", "Sobri", "Kamkar"
+]
+distributor_probs = [0.13, 0.14, 0.15, 0.14, 0.14, 0.14, 0.13, 0.14, 0.13, 0.14, 0.13, 0.14, 0.14, 0.13, 0.14, 0.14, 0.13, 0.13, 0.14, 0.14, 0.13]
 
-car_names = ["Model X", "Model Y", "Model Z"]
-car_probs = [0.34, 0.33, 0.33]
+locations = [
+    "North Carolina", "Tennessee", "California", "Texas", "Florida", "North Carolina", "Oklahoma", "Utah", "New York", "Chicago", "Denver", "Columbus", "Madison", "San Jose", "Detroit", "Portland", "Tucson", "Philadelphia"
+]
+location_probs = [0.13, 0.15, 0.14, 0.14, 0.13, 0.14, 0.13, 0.14, 0.15, 0.14, 0.14, 0.14, 0.13, 0.14, 0.14, 0.13, 0.14, 0.13]
 
-manufacturer_names = ["Manufacturer A", "Manufacturer B", "Manufacturer C"]
-manufacturer_probs = [0.34, 0.33, 0.33]
-
-car_types = ["Sedan", "SUV", "Hatchback", "Convertible", "Truck"]
-car_type_probs = [0.10, 0.10, 0.10, 0.10, 0.60]
+car_details = {
+    "Creta": ("Hyundai", "Hatchback"),
+    "Dzire": ("Maruti", "Sedan"),
+    "Etriga": ("Maruti", "Hatchback"),
+    "i20": ("Hyundai", "Hatchback"),
+    "Seltos": ("Kia", "Hatchback"),
+    "Kags": ("Renault", "SUV"),
+    "Swift": ("Maruti", "Sedan"),
+    "Thar": ("Mahindra", "SUV"),
+    "Scorpio": ("Mahindra", "SUV"),
+    "Fortuner": ("Toyota", "SUV"),
+    "Hilux": ("Toyota", "Truck"),
+    "Yodha": ("Tata", "Truck"),
+    "Plato": ("Prazo", "Convertible")
+}
+car_probs = [0.13, 0.14, 0.15, 0.14, 0.13, 0.14, 0.13, 0.14, 0.15, 0.14, 0.14, 0.14, 0.13]
 
 colors = ["Red", "Blue", "Black", "White", "Gray"]
 color_probs = [0.23, 0.23, 0.23, 0.15, 0.16]
 
-gearboxes = ["Automatic", "Manual"]
-gearbox_probs = [0.5, 0.5]
+grabboxes = ["Automatic", "Manual"]
+grabbox_probs = [0.5, 0.5]
 
 seat_options = [2, 4, 5, 7]
 seat_probs = [0.1, 0.4, 0.4, 0.1]
@@ -70,14 +84,13 @@ def generate_engine_power():
 # Generate dataset
 records = []
 for _ in range(10000):
-    record_id = str(uuid.uuid4())
+    record_id = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
     distributor = random_choice_with_probabilities(distributor_names, distributor_probs)
     location = random_choice_with_probabilities(locations, location_probs)
-    car_name = random_choice_with_probabilities(car_names, car_probs)
-    manufacturer = random_choice_with_probabilities(manufacturer_names, manufacturer_probs)
-    car_type = random_choice_with_probabilities(car_types, car_type_probs)
+    car_name = random_choice_with_probabilities(list(car_details.keys()), car_probs)
+    manufacturer, car_type = car_details[car_name]
     color = random_choice_with_probabilities(colors, color_probs)
-    gearbox = random_choice_with_probabilities(gearboxes, gearbox_probs)
+    gearbox = random_choice_with_probabilities(grabboxes, grabbox_probs)
     seats = random_choice_with_probabilities(seat_options, seat_probs)
     doors = random_choice_with_probabilities(door_options, door_probs)
     energy = random_choice_with_probabilities(energies, energy_probs)
@@ -135,3 +148,10 @@ with open("used_car_sales.csv", "w", newline="", encoding="utf-8") as csvfile:
     writer.writerows(records)
 
 print("Dataset generated and saved as used_car_sales.csv")
+
+# Save to Excel
+df = pd.DataFrame(records)
+excel_file_name = "used_car_sales.xlsx"
+df.to_excel(excel_file_name, index=False, sheet_name="Car Sales Data")
+
+print(f"Dataset also saved as {excel_file_name}")
