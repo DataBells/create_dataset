@@ -27,19 +27,19 @@ locations = [
 location_probs = [0.13, 0.15, 0.14, 0.14, 0.13, 0.14, 0.13, 0.14, 0.15, 0.14, 0.14, 0.14, 0.13, 0.14, 0.14, 0.13, 0.14, 0.13]
 
 car_details = {
-    "Creta": ("Hyundai", "Hatchback"),
-    "Dzire": ("Maruti", "Sedan"),
-    "Etriga": ("Maruti", "Hatchback"),
-    "i20": ("Hyundai", "Hatchback"),
-    "Seltos": ("Kia", "Hatchback"),
-    "Kags": ("Renault", "SUV"),
-    "Swift": ("Maruti", "Sedan"),
-    "Thar": ("Mahindra", "SUV"),
-    "Scorpio": ("Mahindra", "SUV"),
-    "Fortuner": ("Toyota", "SUV"),
-    "Hilux": ("Toyota", "Truck"),
-    "Yodha": ("Tata", "Truck"),
-    "Plato": ("Prazo", "Convertible")
+    "Creta": ("Hyundai", "Hatchback",5,5),
+    "Dzire": ("Maruti", "Sedan",5,5),
+    "Etriga": ("Maruti", "Hatchback",4,5),
+    "i20": ("Hyundai", "Hatchback",4,5),
+    "Seltos": ("Kia", "Hatchback",5,5),
+    "Kags": ("Renault", "SUV",7,5),
+    "Swift": ("Maruti", "Sedan",5,4),
+    "Thar": ("Mahindra", "SUV",5,3),
+    "Scorpio": ("Mahindra", "SUV",5,5),
+    "Fortuner": ("Toyota", "SUV",8,5),
+    "Hilux": ("Toyota", "Truck",4,2),
+    "Yodha": ("Tata", "Truck",3,2),
+    "Plato": ("Prazo", "Convertible",2,2)
 }
 car_probs = [0.13, 0.14, 0.15, 0.14, 0.13, 0.14, 0.13, 0.14, 0.15, 0.14, 0.14, 0.14, 0.13]
 
@@ -49,20 +49,13 @@ color_probs = [0.23, 0.23, 0.23, 0.15, 0.16]
 grabboxes = ["Automatic", "Manual"]
 grabbox_probs = [0.5, 0.5]
 
-seat_options = [2, 4, 5, 7]
-seat_probs = [0.1, 0.4, 0.4, 0.1]
-
-door_options = [2, 4, 5]
-door_probs = [0.2, 0.6, 0.2]
-
 energies = ["Petrol", "Diesel", "Electric", "Hybrid"]
 energy_probs = [0.25, 0.25, 0.25, 0.25]
 
 feedbacks = ["Excellent", "Good", "Average", "Poor"]
 feedback_probs = [0.4, 0.3, 0.2, 0.1]
 
-sales_agents = ["Krishna", "Shiva", "Ram", "Narayan", "Piyush", "Vishwajeet", "Arjuna", "Hariom", "Karan", "Pavan", "Aditya", "Vihaan", "Sai", "Pranav", "Dhruv", "Rithvik", "Aarush",
-                "Swathi", "Shruthi", "Bhavani", "Preeti", "Anushka", "Shailaja", "Supriya", "Sweta", "Shilpa", "Swapna"]
+sales_agents = ["Krishna", "Shiva", "Ram", "Narayan", "Piyush", "Vishwajeet", "Arjuna", "Hariom", "Karan", "Pavan", "Aditya", "Vihaan", "Sai", "Pranav", "Dhruv", "Rithvik", "Aarush","Swathi", "Shruthi", "Bhavani", "Preeti", "Anushka", "Shailaja", "Supriya", "Sweta", "Shilpa", "Swapna"]
 
 # Price and mileage functions
 def generate_price(manufacturer, car_type, year, energy):
@@ -87,13 +80,11 @@ records = []
 for _ in range(10000):
     record_id = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
     distributor = random_choice_with_probabilities(distributor_names, distributor_probs)
-    location = random_choice_with_probabilities(locations, location_probs)
+    location = random_choice_with_probabilities(locations, location_probs) 
     car_name = random_choice_with_probabilities(list(car_details.keys()), car_probs)
-    manufacturer, car_type = car_details[car_name]
+    manufacturer, car_type, seats, doors = car_details[car_name] 
     color = random_choice_with_probabilities(colors, color_probs)
     gearbox = random_choice_with_probabilities(grabboxes, grabbox_probs)
-    seats = random_choice_with_probabilities(seat_options, seat_probs)
-    doors = random_choice_with_probabilities(door_options, door_probs)
     energy = random_choice_with_probabilities(energies, energy_probs)
     manufactured_year = random.randint(2015, 2024)
     price = generate_price(manufacturer, car_type, manufactured_year, energy)
@@ -105,12 +96,12 @@ for _ in range(10000):
     if sold_date and (sold_date - purchased_date).days < 60:
         sold_date += timedelta(days=60)
     purchased_price = price - random.randint(500, 2000)
-    sold_price = purchased_price + random.randint(-15, 15) if sold_date else None
+    sold_price = purchased_price + random.randint(-1234, 1543) if sold_date else None
     margin = ((sold_price - purchased_price) / purchased_price * 100) if sold_price else None
     car_sale_status = "Sold" if is_sold else "Un Sold"
     sales_agent = random.choice(sales_agents)
     sales_rating = random.randint(1, 5)
-    sales_commission = (0.002 * (sold_price - purchased_price)) if margin and margin > 0 else 0
+    sales_commission = (0.2 * (sold_price - purchased_price)) if margin and margin > 0 else 0
     feedback = random_choice_with_probabilities(feedbacks, feedback_probs)
 
     records.append({
@@ -156,3 +147,4 @@ excel_file_name = "used_car_sales.xlsx"
 df.to_excel(excel_file_name, index=False, sheet_name="Car Sales Data")
 
 print(f"Dataset also saved as {excel_file_name}")
+
