@@ -37,7 +37,7 @@ This dataset features 10,000 records of used car sales from 2015 to 2024, captur
 **Sales Commission-$:** Commission paid to the sales agent by the distributor. <br>
 **Feedback:** Customer feedback on the sales experience. <br>
 
-**Check my GitHub and Blog for the code and additional tweaks not included in the prompt.**
+Check my **GitHub and [Blog](https://medium.com/@sandeepsdfrance/how-to-generate-large-tailored-fake-datasets-using-chatgpt-e7609ae60eaf)** for the code and additional tweaks not included in the prompt.
 
 **Conclusion**
 
