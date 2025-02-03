@@ -1,5 +1,6 @@
 
-**Dataset Overview:** <br>
+## Dataset Overview: <br>
+## Domain: AI and Synthetic Data; 
 This dataset features 10,000 records of used car sales from 2015 to 2024, capturing various aspects of the sales process. It includes details such as car make, model, distributor, location, and pricing. The dataset is designed to aid in analyzing trends in used car sales, including price fluctuations, sales patterns, and agent performance. Each record is enriched with attributes like mileage, engine power, and sale status, providing a comprehensive view of the used car market over the decade. This dataset is ideal for data analysis projects, offering insights into the automotive sales industry. Feel free to explore the data and uncover patterns that could inform decision-making in car sales and marketing.<br>
 
 **Why Use This Dataset?** <br>
